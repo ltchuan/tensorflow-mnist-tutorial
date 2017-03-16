@@ -81,8 +81,8 @@ accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 train_step = tf.train.GradientDescentOptimizer(0.005).minimize(cross_entropy)
 
 # matplotlib visualisation
-allweights = tf.reshape(W_o, [-1])
-allbiases = tf.reshape(b_o, [-1])
+allweights = tf.concat([tf.reshape(W_o, [-1]), tf.reshape(W1, [-1])], 0)
+allbiases = tf.concat([tf.reshape(b_o, [-1]), tf.reshape(b1, [-1])], 0)
 I = tensorflowvisu.tf_format_mnist_images(X, Y_o, Y_)  # assembles 10x10 images by default
 It = tensorflowvisu.tf_format_mnist_images(X, Y_o, Y_, 1000, lines=25)  # 1000 images on 25 lines
 datavis = tensorflowvisu.MnistDataVis()

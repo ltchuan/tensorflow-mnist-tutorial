@@ -93,11 +93,11 @@ correct_prediction = tf.equal(tf.argmax(Y_o, 1), tf.argmax(Y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
 
 # training, learning rate = 0.005
-train_step = tf.train.GradientDescentOptimizer(0.003).minimize(cross_entropy)
+train_step = tf.train.GradientDescentOptimizer(0.005).minimize(cross_entropy)
 
 # matplotlib visualisation
-allweights = tf.reshape(W_o, [-1])
-allbiases = tf.reshape(b_o, [-1])
+allweights = tf.concat([tf.reshape(W_o, [-1]), tf.reshape(W1, [-1]), tf.reshape(W2, [-1]), tf.reshape(W3, [-1]), tf.reshape(W4, [-1])], 0)
+allbiases = tf.concat([tf.reshape(b_o, [-1]), tf.reshape(b1, [-1]), tf.reshape(b2, [-1]), tf.reshape(b3, [-1]), tf.reshape(b4, [-1])], 0)
 I = tensorflowvisu.tf_format_mnist_images(X, Y_o, Y_)  # assembles 10x10 images by default
 It = tensorflowvisu.tf_format_mnist_images(X, Y_o, Y_, 1000, lines=25)  # 1000 images on 25 lines
 datavis = tensorflowvisu.MnistDataVis()
@@ -133,7 +133,7 @@ def training_step(i, update_test_data, update_train_data):
     sess.run(train_step, feed_dict={X: batch_X, Y_: batch_Y})
 
 
-datavis.animate(training_step, iterations=10000+1, train_data_update_freq=20, test_data_update_freq=100, more_tests_at_start=True)
+datavis.animate(training_step, iterations=2000+1, train_data_update_freq=10, test_data_update_freq=50, more_tests_at_start=True)
 
 # to save the animation as a movie, add save_movie=True as an argument to datavis.animate
 # to disable the visualisation use the following line instead of the datavis.animate line
